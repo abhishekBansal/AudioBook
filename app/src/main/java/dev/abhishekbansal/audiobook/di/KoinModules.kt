@@ -7,6 +7,8 @@ import dev.abhishekbansal.audiobook.network.ApiServiceProvider
 import dev.abhishekbansal.audiobook.network.HttpClientProvider
 import dev.abhishekbansal.audiobook.network.LoggingInterceptorProvider
 import dev.abhishekbansal.audiobook.utils.MoshiProvider
+import dev.abhishekbansal.audiobook.utils.photoloader.GlideLoader
+import dev.abhishekbansal.audiobook.utils.photoloader.PhotoLoader
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -16,6 +18,7 @@ val appModule = module {
     single { HttpClientProvider.provide(loggingInterceptor = get(), BuildConfig.DEBUG) }
     single { MoshiProvider.provide()}
     single { ApiServiceProvider.provide(baseUrl = "https://run.mocky.io", moshi = get(), httpClient = get()) }
+    single<PhotoLoader> { GlideLoader() }
 
     // audio book module
     factory { RemoteDataSource(apiService = get()) }

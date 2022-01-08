@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.abhishekbansal.audiobook.R
 import dev.abhishekbansal.audiobook.databinding.FragmentAudioBookBinding
+import dev.abhishekbansal.audiobook.utils.photoloader.PhotoLoader
 import org.koin.android.ext.android.inject
 
 
@@ -18,8 +19,9 @@ class AudioBookFragment : Fragment(), Observer<AudioBookUiState> {
 
     private var binding: FragmentAudioBookBinding? = null
     private val viewModel by inject<AudioBookViewModel>()
+    private val photoLoader by inject<PhotoLoader>()
     private val adapter by lazy {
-        AudioBookAdapter()
+        AudioBookAdapter(photoLoader)
     }
 
     override fun onCreateView(

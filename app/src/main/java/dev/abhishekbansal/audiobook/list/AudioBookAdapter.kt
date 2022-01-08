@@ -8,8 +8,9 @@ import dev.abhishekbansal.audiobook.R
 import dev.abhishekbansal.audiobook.data.AudioBook
 import dev.abhishekbansal.audiobook.databinding.ItemBookBinding
 import dev.abhishekbansal.audiobook.databinding.ItemHeaderBinding
+import dev.abhishekbansal.audiobook.utils.photoloader.PhotoLoader
 
-class AudioBookAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AudioBookAdapter(private val photoLoader: PhotoLoader) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val itemList = mutableListOf<AdapterData>()
     private val ParentItemType = 1
     private val ChildItemType = 2
@@ -78,11 +79,13 @@ class AudioBookAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class BookViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = ItemBookBinding.bind(itemView)
         fun bind(data: AdapterData) {
             (data as Book).apply {
-                binding.root.text = book.primaryGenreName
+                binding.nameTv.text = book.collectionName
+                binding.descriptionTv.text = book.description
+                photoLoader.load(book.artworkUrl60, binding.imageView)
             }
         }
     }
