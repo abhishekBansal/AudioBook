@@ -9,5 +9,5 @@ class AudioBookViewModel(private val repository: AudioBookRepository): ViewModel
     private val uiState = MutableLiveData<AudioBookUiState>()
     fun uiState() = uiState as LiveData<AudioBookUiState>
 
-    
+
 }
