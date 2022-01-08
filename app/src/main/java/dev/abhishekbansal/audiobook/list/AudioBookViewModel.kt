@@ -29,6 +29,7 @@ class AudioBookViewModel(private val repository: AudioBookRepository) : ViewMode
                 uiState.value = SuccessState(bookList = adapterData)
             } catch (error: Exception) {
                 Log.w("Error", error)
+                uiState.value = ErrorState()
             }
         }
     }

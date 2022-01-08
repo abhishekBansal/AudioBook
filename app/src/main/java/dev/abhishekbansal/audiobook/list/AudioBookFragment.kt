@@ -63,7 +63,9 @@ class AudioBookFragment : Fragment(), Observer<AudioBookUiState>, AudioBookAdapt
 
     override fun onChanged(state: AudioBookUiState) {
         when (state) {
-            is ErrorState -> TODO()
+            is ErrorState -> {
+                showError()
+            }
             LoadingState -> {
                 showLoader()
             }
@@ -87,6 +89,16 @@ class AudioBookFragment : Fragment(), Observer<AudioBookUiState>, AudioBookAdapt
             errorLayout.isVisible = false
             recyclerView.isVisible = false
             progressBar.isVisible = true
+        }
+    }
+
+    private fun showError() {
+        binding?.apply {
+            errorLayout.isVisible = true
+            recyclerView.isVisible = false
+            progressBar.isVisible = false
+
+            retryBtn.setOnClickListener { viewModel.getBooks() }
         }
     }
 
