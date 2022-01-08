@@ -20,6 +20,7 @@ class AudioBookViewModel(private val repository: AudioBookRepository) : ViewMode
     }
 
     fun getBooks() {
+        uiState.value = LoadingState
         viewModelScope.launch {
             try {
                 books.clear()
