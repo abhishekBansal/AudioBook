@@ -49,11 +49,31 @@ class AudioBookAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private fun toggleItem(position: Int, header: Header) {
+        if (!header.expanded) {
+            val bookData = header.books.map { Book(it) }
+            itemList.addAll(position + 1, bookData)
+            notifyDataSetChanged()
+//            notifyItemRangeInserted(position+1, bookData.size)
+        } else {
+//            for (i in (position + 1)..(position + header.books.size)) {
+            itemList.subList(position + 1, position + header.books.size + 1).clear()
+//            }
+            notifyDataSetChanged()
+//            notifyItemRangeRemoved(position + 1, header.books.size)
+        }
+
+        header.expanded = !header.expanded
+    }
+
+    inner class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = ItemHeaderBinding.bind(itemView)
         fun bind(data: AdapterData) {
             (data as Header).apply {
                 binding.root.text = name
+                binding.root.setOnClickListener {
+                    toggleItem(adapterPosition, this)
+                }
             }
         }
     }
@@ -69,5 +89,5 @@ class AudioBookAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 }
 
 interface AdapterData
-class Header(val name: String, val books: List<AudioBook>) : AdapterData
+class Header(val name: String, val books: List<AudioBook>, var expanded: Boolean = false) : AdapterData
 class Book(val book: AudioBook) : AdapterData
