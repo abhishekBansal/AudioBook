@@ -1,9 +1,12 @@
 package dev.abhishekbansal.audiobook.list
 
-import dev.abhishekbansal.audiobook.data.AudioBook
-
 sealed class AudioBookUiState
 
-object LoadingState: AudioBookUiState()
-class SuccessState(val bookList: List<AdapterData>): AudioBookUiState()
-class ErrorState(val messageRes: Int): AudioBookUiState()
+object LoadingState : AudioBookUiState()
+class SuccessState(val bookList: List<AdapterData>, val grouping: Grouping = Grouping.ARTIST) : AudioBookUiState()
+class ErrorState(val messageRes: Int) : AudioBookUiState()
+
+enum class Grouping {
+    ARTIST,
+    GENRE
+}

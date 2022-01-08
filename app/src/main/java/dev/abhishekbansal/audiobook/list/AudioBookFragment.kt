@@ -50,6 +50,12 @@ class AudioBookFragment : Fragment(), Observer<AudioBookUiState> {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        viewModel.groupItems(item.itemId)
+
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
