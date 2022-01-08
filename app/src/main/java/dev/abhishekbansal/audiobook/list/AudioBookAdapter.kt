@@ -54,14 +54,10 @@ class AudioBookAdapter(private val photoLoader: PhotoLoader) : RecyclerView.Adap
         if (!header.expanded) {
             val bookData = header.books.map { Book(it) }
             itemList.addAll(position + 1, bookData)
-            notifyDataSetChanged()
-//            notifyItemRangeInserted(position+1, bookData.size)
+            notifyItemRangeInserted(position+1, bookData.size)
         } else {
-//            for (i in (position + 1)..(position + header.books.size)) {
             itemList.subList(position + 1, position + header.books.size + 1).clear()
-//            }
-            notifyDataSetChanged()
-//            notifyItemRangeRemoved(position + 1, header.books.size)
+            notifyItemRangeRemoved(position + 1, header.books.size)
         }
 
         header.expanded = !header.expanded
