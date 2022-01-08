@@ -17,11 +17,10 @@ data class AudioBook (
     val collectionPrice : Double,
     val collectionExplicitness : String,
     val trackCount : Int,
-    val copyright : String,
     val country : String,
     val currency : String,
     val releaseDate : String,
     val primaryGenreName : String,
     val previewUrl : String,
-    val description : String
+    val description : String?
 )

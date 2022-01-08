@@ -7,6 +7,6 @@ class AudioBookRepository(
     private val remoteDataSource: RemoteDataSource
 ) : AudioBookDataSource {
     override suspend fun getAudioBooks(): List<AudioBook> {
-        TODO("Not yet implemented")
+        return remoteDataSource.getAudioBooks()
     }
 }

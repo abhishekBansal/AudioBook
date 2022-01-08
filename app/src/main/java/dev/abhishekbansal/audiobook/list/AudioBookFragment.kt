@@ -37,6 +37,7 @@ class AudioBookFragment : Fragment(), Observer<AudioBookUiState> {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.uiState().observe(viewLifecycleOwner, this)
+        viewModel.getBooks()
     }
 
     override fun onDestroyView() {

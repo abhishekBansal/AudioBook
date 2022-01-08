@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'com.google.devtools.ksp'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -51,7 +51,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
 
     implementation("com.squareup.moshi:moshi:1.13.0")
-    ksp("com.squareup.moshi:moshi-kotlin-codegen:1.13.0")
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.13.0")
 
     // ViewModel
     def lifecycle_version = "2.4.0"
