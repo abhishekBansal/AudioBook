@@ -15,10 +15,30 @@ class AudioBookAdapter(private val photoLoader: PhotoLoader) : RecyclerView.Adap
     private val ParentItemType = 1
     private val ChildItemType = 2
 
+    fun interface ItemClickListener {
+        fun onItemClick(position: Int, item: AdapterData, view: View)
+    }
+
+    var itemClickListener: ItemClickListener? = null
+
     fun setItems(items: List<AdapterData>) {
         itemList.clear()
         itemList.addAll(items)
         notifyDataSetChanged()
+    }
+
+    fun setItem(position: Int, item: AdapterData) {
+        itemList[position] = item
+
+        if(item is Header) {
+            itemList.subList(position + 1, position + item.books.size + 1).clear()
+
+            val bookData = item.books.map { Book(it) }
+            itemList.addAll(position + 1, bookData)
+            notifyItemRangeInserted(position + 1, bookData.size)
+        } else {
+            notifyItemChanged(position)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -54,7 +74,7 @@ class AudioBookAdapter(private val photoLoader: PhotoLoader) : RecyclerView.Adap
         if (!header.expanded) {
             val bookData = header.books.map { Book(it) }
             itemList.addAll(position + 1, bookData)
-            notifyItemRangeInserted(position+1, bookData.size)
+            notifyItemRangeInserted(position + 1, bookData.size)
         } else {
             itemList.subList(position + 1, position + header.books.size + 1).clear()
             notifyItemRangeRemoved(position + 1, header.books.size)
@@ -67,9 +87,13 @@ class AudioBookAdapter(private val photoLoader: PhotoLoader) : RecyclerView.Adap
         private val binding = ItemHeaderBinding.bind(itemView)
         fun bind(data: AdapterData) {
             (data as Header).apply {
-                binding.root.text = name
+                binding.nameTv.text = name
                 binding.root.setOnClickListener {
                     toggleItem(adapterPosition, this)
+                }
+
+                binding.shuffleBtn.setOnClickListener {
+                    itemClickListener?.onItemClick(adapterPosition, this, binding.shuffleBtn)
                 }
             }
         }

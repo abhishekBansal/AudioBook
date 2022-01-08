@@ -2,9 +2,8 @@ package dev.abhishekbansal.audiobook.list
 
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
-import androidx.appcompat.widget.`LinearLayoutCompat$InspectionCompanion`
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.abhishekbansal.audiobook.R
@@ -13,7 +12,7 @@ import dev.abhishekbansal.audiobook.utils.photoloader.PhotoLoader
 import org.koin.android.ext.android.inject
 
 
-class AudioBookFragment : Fragment(), Observer<AudioBookUiState> {
+class AudioBookFragment : Fragment(), Observer<AudioBookUiState>, AudioBookAdapter.ItemClickListener {
 
     private var binding: FragmentAudioBookBinding? = null
     private val viewModel by inject<AudioBookViewModel>()
@@ -36,6 +35,7 @@ class AudioBookFragment : Fragment(), Observer<AudioBookUiState> {
 
         binding?.recyclerView?.adapter = adapter
         binding?.recyclerView?.layoutManager = LinearLayoutManager(context)
+        adapter.itemClickListener = this
         return rootView
     }
 
@@ -62,7 +62,7 @@ class AudioBookFragment : Fragment(), Observer<AudioBookUiState> {
     }
 
     override fun onChanged(state: AudioBookUiState) {
-        when(state) {
+        when (state) {
             is ErrorState -> TODO()
             LoadingState -> {
                 showLoader()
@@ -87,6 +87,20 @@ class AudioBookFragment : Fragment(), Observer<AudioBookUiState> {
             errorLayout.isVisible = false
             recyclerView.isVisible = false
             progressBar.isVisible = true
+        }
+    }
+
+    override fun onItemClick(position: Int, item: AdapterData, view: View) {
+        when (view.id) {
+            R.id.shuffleBtn -> {
+                (item as? Header)?.apply {
+                    val newHeader = Header(name, books.shuffled(), expanded)
+                    adapter.setItem(position, newHeader)
+                }
+            }
+
+            else -> {
+            }
         }
     }
 
