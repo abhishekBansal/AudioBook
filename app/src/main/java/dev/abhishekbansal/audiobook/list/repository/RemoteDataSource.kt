@@ -5,6 +5,6 @@ import dev.abhishekbansal.audiobook.network.ApiService
 
 class RemoteDataSource(private val apiService: ApiService): AudioBookDataSource {
     override suspend fun getAudioBooks(): List<AudioBook> {
-        TODO("Not yet implemented")
+        return apiService.getAudioBooks().results
     }
 }
