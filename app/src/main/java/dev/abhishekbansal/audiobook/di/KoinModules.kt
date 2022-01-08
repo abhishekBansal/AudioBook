@@ -9,5 +9,5 @@ val appModule = module {
     single { LoggingInterceptorProvider.provide() }
     single { HttpClientProvider.provide(loggingInterceptor = get(), BuildConfig.DEBUG) }
     single { MoshiProvider.provide()}
-    single { ApiServiceProvider.provide(baseUrl = "", moshi = get(), httpClient = get()) }
+    single { ApiServiceProvider.provide(baseUrl = "https://run.mocky.io", moshi = get(), httpClient = get()) }
 }
